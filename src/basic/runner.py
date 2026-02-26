@@ -1,11 +1,11 @@
 import sys
 import ast
-import api
+from . import api
 from types import ModuleType, FunctionType
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 
-def _is_expression(code_str):
+def _is_expression(code_str: str) -> bool:
     """判断一段字符串能否被解析为表达式"""
     tree = ast.parse(code_str)
     return bool(tree.body) and isinstance(tree.body[-1], ast.Expr)
@@ -13,16 +13,16 @@ def _is_expression(code_str):
 
 class Runner:
     def __init__(self):
-        self.global_context = self._safe_globals()  # 储存全局上下文
-        self.local_context = {}  # 储存局部上下文
+        self.global_context: Dict[str, Any] = self._safe_globals()  # 储存全局上下文
+        self.local_context: Dict[str, Any] = {}  # 储存局部上下文
 
     @staticmethod
     def _safe_globals() -> Dict[str, Any]:
         """创建一个安全的全局环境"""
-        _globals = {
+        _globals: Dict[str, Any] = {
             '__builtins__': None,  # 禁用所有内置函数
         }
-        allowed_builtins = [
+        allowed_builtins: list[str] = [
             'abs', 'all', 'any', 'ascii', 'bin', 'bool', 'bytearray', 'bytes',
             'callable', 'chr', 'complex', 'dict', 'divmod', 'enumerate', 'filter',
             'float', 'format', 'frozenset', 'getattr', 'hasattr', 'hash', 'hex',
@@ -40,11 +40,11 @@ class Runner:
 
         return _globals
 
-    def run(self, code_str):
+    def run(self, code_str: str) -> str:
         """执行代码"""
+        result: Optional[Any]
         if _is_expression(code_str):
             result = eval(code_str, self.global_context, self.local_context)  # 判断代码为表达式，返回表达式求值结果
-
         else:
             result = None
 
@@ -55,6 +55,6 @@ class Runner:
 runner = Runner()
 
 
-def run_code(code_str):
+def run_code(code_str: str) -> str:
     """暴露给外部使用的run函数"""
     return runner.run(code_str)

@@ -1,8 +1,26 @@
 ## 简介
 
-Alice Engine(v0.1)是一个文字游戏引擎，旨在让游戏开发者简便地开发属于自己的文字游戏。引擎使用 python 语言开发，操作简单，新手可轻松上手。
+Alice Engine(v0.1)是一个文字游戏引擎，旨在让游戏开发者简便地开发属于自己的文字游戏。引擎使用 python 语言开发,而用户可以使用一个名为alice_script的语言开发，操作简单，新手可轻松上手。
 
-## 使用方式
+## 引擎使用方式
+
+此引擎目前以Python库的方式分发，你可以通过pip这个包管理器来安装引擎：
+```
+pip install alice-engine
+```
+
+引擎封装了将所有功能封装到一个名为`GameRunner`的Python类中，你可以通过实例化这个类来运行你的游戏<br>
+
+例如下面的这段代码展示了如何执行一个as脚本（你也可以在example目录的main.py找到这个示例并尝试运行）：
+
+```python
+from alice_engine import GameRunner
+
+game_runner = GameRunner("example/example-script.as")
+game_runner.run_game()
+```
+
+## AS脚本编写概述
 
 Alice Engine 引擎运行的基本单位是节点(Point)，节点分属着各自的选项(Choice)，选项再链接到各自的节点。<br>
 当游戏开始时，游戏画面会显示此时的节点文本，下面会列出一系列选项。当玩家点击一个选项后，游戏会跳转到选项所对应的节点。
@@ -84,7 +102,7 @@ python 代码用一对`@`括起来
 ```
 ---
 ## 示例脚本
-我们提供了一个示例脚本 ./script.as
+我们提供了一个示例脚本 ./example/example-script.as
 
 示例脚本文件运行后，效果如下：
 ![这是文本A](./docs/assets/README/TextA-README.png)
